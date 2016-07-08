@@ -8,9 +8,9 @@
 #include <thread>
 #include <mutex>
 
-#include "../MyCommon/ErrorCode.h"
-#include "../MyCommon/PacketID.h"
-#include "../MyCommon/Packet.h"
+#include "MyCommon/ErrorCode.h"
+#include "MyCommon/PacketID.h"
+#include "MyCommon/Packet.h"
 
 
 const int MAX_PACKET_SIZE = 1024;
