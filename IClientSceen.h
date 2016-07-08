@@ -16,7 +16,7 @@
 
 using namespace nana;
 
-#include "../MyCommon/PacketID.h"
+#include "MyCommon/PacketID.h"
 
 class TcpNetwork;
 
