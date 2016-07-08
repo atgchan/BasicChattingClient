@@ -142,6 +142,7 @@ namespace NCommon
 
 	struct PktRoomEnterRes : PktBase
 	{
+		RoomSmallInfo RoomInfo;
 	};
 
 
