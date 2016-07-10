@@ -74,6 +74,20 @@ public:
 			}
 		}
 		break;
+		case (short)PACKET_ID::LOGIN_OUT_RES:
+		{
+			auto pktRes = (NCommon::PktLogOutRes*)pData;
+
+			if (pktRes->ErrorCode == (short)NCommon::ERROR_CODE::NONE)
+			{
+				m_LobbyList->clear();
+			}
+			else
+			{
+				std::cout << "[LOGIN_OUT_RES] ErrorCode: " << pktRes->ErrorCode << std::endl;
+			}
+		}
+		break;
 		default:
 			return false;
 		}

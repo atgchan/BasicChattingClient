@@ -89,7 +89,7 @@ public:
 		{
 			m_Loginbtn->enabled(true);
 
-			auto pktRes = (NCommon::PktLogInRes*)pData;
+			auto pktRes = (NCommon::PktLogOutRes*)pData;
 
 			if (pktRes->ErrorCode == (short)NCommon::ERROR_CODE::NONE)
 			{
@@ -172,7 +172,6 @@ private:
 		{
 			NCommon::PktLogOutReq reqPkt;
 			m_pRefNetwork->SendPacket((short)PACKET_ID::LOGIN_OUT_REQ, sizeof(reqPkt), (char*)&reqPkt);
-
 			m_Loginbtn->enabled(false);
 			//nana::msgbox m((form&)*m_pForm, "Unimplemented", nana::msgbox::ok);
 			//m.icon(m.icon_warning);
