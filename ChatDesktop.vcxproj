@@ -166,6 +166,10 @@
     <ClInclude Include="ClientScreenRoom.h" />
     <ClInclude Include="IClientSceen.h" />
     <ClInclude Include="MainForm.h" />
+    <ClInclude Include="MyCommon\conmanip.h" />
+    <ClInclude Include="MyCommon\ErrorCode.h" />
+    <ClInclude Include="MyCommon\Packet.h" />
+    <ClInclude Include="MyCommon\PacketID.h" />
     <ClInclude Include="TcpNetwork.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

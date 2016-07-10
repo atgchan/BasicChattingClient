@@ -22,10 +22,25 @@
     <ClInclude Include="ClientScreenRoom.h">
       <Filter>ClientSceen</Filter>
     </ClInclude>
+    <ClInclude Include="MyCommon\conmanip.h">
+      <Filter>MyCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCommon\ErrorCode.h">
+      <Filter>MyCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCommon\Packet.h">
+      <Filter>MyCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCommon\PacketID.h">
+      <Filter>MyCommon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ClientSceen">
       <UniqueIdentifier>{90a8a737-9009-4239-94f1-b916e2187f81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyCommon">
+      <UniqueIdentifier>{ece67d07-6e75-407e-96ae-dd1b8229e15b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -32,6 +32,9 @@ void MainForm::Init()
 
 	m_pClientSceenLobby = std::make_shared<ClientSceenLobby>();
 	m_pClientSceenLobby->SetNetwork(m_Network.get());
+
+	m_pClientSceenRoom = std::make_shared<ClientSceenRoom>();
+	m_pClientSceenRoom->SetNetwork(m_Network.get());
 }
 
 void MainForm::CreateGUI()
@@ -46,6 +49,8 @@ void MainForm::CreateGUI()
 	m_pClientSceenLogin->CreateUI(m_fm.get());
 
 	m_pClientSceenLobby->CreateUI(m_fm.get());
+
+	m_pClientSceenRoom->CreateUI(m_fm.get());
 
 	m_RoomUserList = std::make_shared<listbox>((form&)*m_fm.get(), nana::rectangle(22, 522, 120, 166));
 	m_RoomUserList->append_header("UserID", 90);
@@ -76,6 +81,7 @@ void MainForm::PacketProcess()
 		m_pClientSceen->ProcessPacket(packet.PacketId, packet.pData);
 		m_pClientSceenLogin->ProcessPacket(packet.PacketId, packet.pData);
 		m_pClientSceenLobby->ProcessPacket(packet.PacketId, packet.pData);
+		m_pClientSceenRoom->ProcessPacket(packet.PacketId, packet.pData);
 
 		if (packet.pData != nullptr) {
 			delete[] packet.pData;
@@ -86,5 +92,6 @@ void MainForm::PacketProcess()
 	m_pClientSceen->Update();
 	m_pClientSceenLogin->Update();
 	m_pClientSceenLobby->Update();
+	m_pClientSceenRoom->Update();
 }
 

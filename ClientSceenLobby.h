@@ -132,6 +132,14 @@ public:
 		m_btnEnterRoom->events().click([&]() {
 			this->RequestEnterRoom();
 		});
+
+		m_RoomNameTxt = std::make_shared<textbox>((form&)*m_pForm, nana::rectangle(320, 490, 200, 23));
+
+		m_btnCreateRoom = std::make_unique<button>((form&)*m_pForm, nana::rectangle(525, 490, 102, 23));
+		m_btnCreateRoom->caption("Create Room");
+		m_btnCreateRoom->events().click([&]() {
+			this->RequestCreateRoom();
+		});
 	}
 
 	void Init(const int maxUserCount)
@@ -177,6 +185,24 @@ public:
 		m_pRefNetwork->SendPacket((short)PACKET_ID::ROOM_ENTER_REQ, sizeof(reqPkt), (char*)&reqPkt);
 	}
 
+	void RequestCreateRoom()
+	{
+		char szRoomName[NCommon::MAX_ROOM_TITLE_SIZE] = { 0, };
+		UnicodeToAnsi(m_RoomNameTxt->caption_wstring().c_str(), NCommon::MAX_ROOM_TITLE_SIZE, szRoomName);
+
+		if (strlen(szRoomName) == 0)
+		{
+			nana::msgbox m((form&)*m_pForm, "Please Enter Room Name", nana::msgbox::ok);
+			m.icon(m.icon_warning).show();
+			return;
+		}
+		
+		NCommon::PktRoomEnterReq reqPkt;
+		reqPkt.IsCreate = true;
+		mbstowcs(reqPkt.RoomTitle, szRoomName, NCommon::MAX_ROOM_TITLE_SIZE);
+		m_pRefNetwork->SendPacket((short)PACKET_ID::ROOM_ENTER_REQ, sizeof(reqPkt), (char*)&reqPkt);
+	}
+
 	void SetRoomListGui()
 	{
 		m_IsRoomListWorking = false;
@@ -213,8 +239,8 @@ public:
 		NCommon::RoomSmallInfo newRoom;
 		memcpy(&newRoom, pRoomInfo, sizeof(NCommon::RoomSmallInfo));
 		
-		//bool IsRemove = newRoom.RoomUserCount == 0 ? true : false;
-		bool IsRemove = false;
+		bool IsRemove = newRoom.RoomUserCount == 0 ? true : false;
+		//bool IsRemove = false;
 
 		if (m_IsRoomListWorking)
 		{
@@ -323,6 +349,9 @@ private:
 	std::shared_ptr<listbox> m_LobbyRoomList;
 	std::shared_ptr<listbox> m_LobbyUserList;
 	std::unique_ptr<button> m_btnEnterRoom;
+	std::unique_ptr<button> m_btnCreateRoom;
+
+	std::shared_ptr<textbox> m_RoomNameTxt;
 
 	int m_MaxUserCount = 0;
 

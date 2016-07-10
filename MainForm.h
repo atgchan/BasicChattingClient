@@ -23,6 +23,7 @@ class IClientSceen;
 class ClientSceen;
 class ClientSceenLogin;
 class ClientSceenLobby;
+class ClientSceenRoom;
 
 
 class MainForm
@@ -57,4 +58,5 @@ private:
 	std::shared_ptr<ClientSceen> m_pClientSceen;
 	std::shared_ptr<ClientSceenLogin> m_pClientSceenLogin;
 	std::shared_ptr<ClientSceenLobby> m_pClientSceenLobby;
+	std::shared_ptr<ClientSceenRoom> m_pClientSceenRoom;
 };
