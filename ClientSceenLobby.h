@@ -181,6 +181,8 @@ public:
 	{
 		m_IsRoomListWorking = false;
 
+		m_LobbyRoomList->clear();
+
 		for (auto & room : m_RoomList)
 		{
 			m_LobbyRoomList->at(0).append({ std::to_wstring(room.RoomIndex),
@@ -195,6 +197,8 @@ public:
 	void SetUserListGui()
 	{
 		m_IsUserListWorking = false;
+
+		m_LobbyUserList->clear();
 
 		for (auto & userId : m_UserList)
 		{

@@ -71,10 +71,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\BasicChattingServer\MyBin\</OutDir>
+    <OutDir>..\MyBin\</OutDir>
     <IncludePath>.\nana\include;$(IncludePath)</IncludePath>
     <LibraryPath>.\nana\build\bin;$(LibraryPath)</LibraryPath>
-    <SourcePath>.\nana\source;$(SourcePath)</SourcePath>
+    <SourcePath>.\nana/source;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -85,10 +85,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\BasicChattingServer\MyRelease\</OutDir>
-    <IncludePath>nana\include;$(IncludePath)</IncludePath>
-    <LibraryPath>nana\build\bin;$(LibraryPath)</LibraryPath>
-    <SourcePath>nana\source;$(SourcePath)</SourcePath>
+    <OutDir>..\MyBin\</OutDir>
+    <IncludePath>.\nana\include;$(IncludePath)</IncludePath>
+    <LibraryPath>.\nana\build\bin;$(LibraryPath)</LibraryPath>
+    <SourcePath>.\nana/source;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
