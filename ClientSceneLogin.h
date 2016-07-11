@@ -13,7 +13,7 @@ public:
 
 	virtual void Update() override
 	{
-		if (GetCurSceenType() != CLIENT_SCEEN_TYPE::LOGIN) 
+		if (GetCurSceneType() != CLIENT_SCENE_TYPE::LOGIN) 
 		{
 			return;
 		}
@@ -56,8 +56,7 @@ public:
 			auto pktRes = (NCommon::PktLobbyListRes*)pData;
 
 			if (pktRes->ErrorCode == (short)NCommon::ERROR_CODE::NONE)
-			{
-				//로비리스트를 갱신한다
+			{ //로비리스트를 갱신한다
 				m_list_lobby->clear();
 
 				for (int i = 0; i < pktRes->LobbyCount; ++i)
@@ -104,7 +103,7 @@ private:
 
 	void RequestEnterLobby()
 	{
-		if (GetCurSceenType() != CLIENT_SCEEN_TYPE::LOGIN) 
+		if (GetCurSceneType() != CLIENT_SCENE_TYPE::LOGIN) 
 		{
 			nana::msgbox m((form&)*m_pForm, "Require LogIn", nana::msgbox::ok);
 			m.icon(m.icon_warning).show();
