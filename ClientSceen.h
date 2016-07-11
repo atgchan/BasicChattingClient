@@ -32,7 +32,7 @@ public:
 		m_Porttxt->caption("23452");
 
 		m_Connectbtn = std::make_shared<button>((form&)*m_pForm, nana::rectangle(283, 14, 102, 23));
-		m_Connectbtn->caption("Connent");
+		m_Connectbtn->caption("Connect");
 		m_Connectbtn->events().click([&]() {
 			this->ConnectOrDisConnect();
 		});
@@ -133,6 +133,7 @@ private:
 			else
 			{
 				nana::msgbox m((form&)*m_pForm, "Fail Connect", nana::msgbox::ok);
+				m << "Fail to connect";
 				m.icon(m.icon_warning);
 				m.show();
 

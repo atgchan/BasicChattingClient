@@ -124,7 +124,7 @@ public:
 		m_LobbyRoomList->append_header(L"Cur", 30);
 		m_LobbyRoomList->append_header(L"Max", 30);
 
-		m_LobbyUserList = std::make_shared<listbox>((form&)*m_pForm, nana::rectangle(550, 106, 120, 383));
+		m_LobbyUserList = std::make_shared<listbox>((form&)*m_pForm, nana::rectangle(560, 106, 120, 383));
 		m_LobbyUserList->append_header("UserID", 90);
 
 		m_btnEnterRoom = std::make_unique<button>((form&)*m_pForm, nana::rectangle(204, 490, 102, 23));

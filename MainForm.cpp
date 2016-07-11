@@ -50,6 +50,11 @@ void MainForm::CreateGUI()
 	m_RoomUserList = std::make_shared<listbox>((form&)*m_fm.get(), nana::rectangle(22, 522, 120, 166));
 	m_RoomUserList->append_header("UserID", 90);
 
+	m_chatBox = std::make_shared<textbox>((form&)*m_fm.get(), nana::rectangle( 152, 522, 530, 140));
+	m_chatBox->editable(false);
+	m_chatInput = std::make_shared<textbox>((form&)*m_fm.get(), nana::rectangle( 152, 661, 530, 27));
+	m_chatInput->focus();
+
 	m_timer.elapse([&]() { PacketProcess();});
 	m_timer.interval(32);
 	m_timer.start();
@@ -82,7 +87,6 @@ void MainForm::PacketProcess()
 		}
 	}
 	
-
 	m_pClientSceen->Update();
 	m_pClientSceenLogin->Update();
 	m_pClientSceenLobby->Update();
