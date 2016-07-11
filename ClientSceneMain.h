@@ -4,15 +4,15 @@
 
 //PacketProcess에서 Logout 부분 서버에서 아직 구현 안 함
 
-class ClientScene : public IClientScene
+class ClientSceneMain : public IClientScene
 {
 public:
-	ClientScene() {}
-	virtual ~ClientScene() {}
+	ClientSceneMain() {}
+	virtual ~ClientSceneMain() {}
 
 	virtual void Update() override
 	{
-		if (GetCurSceenType() != CLIENT_SCEEN_TYPE::CONNECT) 
+		if (GetCurSceneType() != CLIENT_SCENE_TYPE::CONNECT) 
 		{
 			return;
 		}
@@ -75,7 +75,7 @@ public:
 			{
 				m_button_login->caption("LogOut");
 				m_IsLogined = true;
-				SetCurSceenType(CLIENT_SCEEN_TYPE::LOGIN);
+				SetCurSceneType(CLIENT_SCENE_TYPE::LOGIN);
 			}
 			else
 			{
@@ -96,7 +96,7 @@ public:
 			{
 				m_button_login->caption("Login");
 				m_IsLogined = false;
-				SetCurSceenType(CLIENT_SCEEN_TYPE::CONNECT);
+				SetCurSceneType(CLIENT_SCENE_TYPE::CONNECT);
 			}
 			else
 			{
