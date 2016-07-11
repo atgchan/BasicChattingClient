@@ -92,6 +92,7 @@ public:
 		{
 			auto pktRes = (NCommon::PktRoomEnterRes*)pData;
 			UpdateRoomInfo(&pktRes->RoomInfo);
+			SetCurSceenType(CLIENT_SCEEN_TYPE::ROOM);
 		}
 			break;
 
