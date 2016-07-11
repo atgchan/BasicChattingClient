@@ -51,10 +51,7 @@ void MainForm::CreateGUI()
 	m_pClientSceenLobby->CreateUI(m_fm.get());
 
 	m_pClientSceenRoom->CreateUI(m_fm.get());
-
-	m_RoomUserList = std::make_shared<listbox>((form&)*m_fm.get(), nana::rectangle(22, 522, 120, 166));
-	m_RoomUserList->append_header("UserID", 90);
-
+	
 	m_timer.elapse([&]() { PacketProcess();});
 	m_timer.interval(32);
 	m_timer.start();

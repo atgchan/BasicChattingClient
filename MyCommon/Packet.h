@@ -159,6 +159,26 @@ namespace NCommon
 	};
 
 
+	//- 들어온 룸의 유저 정보 요청
+	const int MAX_USER_COUNT_PER_ROOM = 4;
+	struct PktEnterRoomUserInfoReq
+	{
+		short RoomIndex;
+	};
+
+	struct PktEnterRoomUserInfoRes : PktBase
+	{
+		short RoomIndex;
+		short UserCount;
+		UserSmallInfoRoom UserInfo[MAX_USER_COUNT_PER_ROOM];
+	};
+
+	struct UserSmallInfoRoom
+	{
+		char UserID[MAX_USER_ID_SIZE + 1] = { 0, };
+	};
+
+
 	//- 룸 나가기 요청
 	struct PktRoomLeaveReq {};
 
