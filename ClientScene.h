@@ -1,7 +1,8 @@
 #pragma once
 
-#include "TcpNetwork.h"
 #include "IClientScene.h"
+
+//PacketProcess에서 Logout 부분 서버에서 아직 구현 안 함
 
 class ClientScene : public IClientScene
 {
@@ -59,7 +60,6 @@ public:
 		m_button_login->events().click([&]() { this->LogInOut(); });
 		m_button_login->enabled(false);
 	}
-
 
 	bool ProcessPacket(const short packetId, char* pData) override
 	{
