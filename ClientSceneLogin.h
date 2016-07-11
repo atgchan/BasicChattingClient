@@ -43,7 +43,7 @@ public:
 
 		//GUI - Enther the lobby button
 		m_button_enterlobby = std::make_unique<button>((form&)*m_pForm, nana::rectangle(22, 490, 102, 23));
-		m_button_enterlobby->caption("Enter Channel");
+		m_button_enterlobby->caption("Enter Lobby");
 		m_button_enterlobby->events().click([&]() { this->RequestEnterLobby(); });
 	}
 
