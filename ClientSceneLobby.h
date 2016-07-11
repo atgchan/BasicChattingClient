@@ -7,8 +7,6 @@
 
 #include "IClientScene.h"
 
-
-
 class ClientSceneLobby : public IClientScene
 {
 public:
@@ -92,7 +90,7 @@ public:
 		{
 			auto pktRes = (NCommon::PktRoomEnterRes*)pData;
 			UpdateRoomInfo(&pktRes->RoomInfo);
-			SetCurSceenType(CLIENT_SCEEN_TYPE::ROOM);
+			SetCurSceneType(CLIENT_SCENE_TYPE::ROOM);
 		}
 			break;
 

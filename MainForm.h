@@ -8,7 +8,6 @@
 #include <nana/gui/timer.hpp>
 #include <nana/gui.hpp>
 
-
 #ifdef NDEBUG
 #pragma comment(lib, "nana_v140_Release_x86.lib")
 #else
@@ -19,12 +18,11 @@ using namespace nana;
 
 class TcpNetwork;
 
-class IClientSceen;
-class ClientSceen;
-class ClientSceenLogin;
-class ClientSceenLobby;
-class ClientSceenRoom;
-
+class IClientScene;
+class ClientSceneMain;
+class ClientSceneLogin;
+class ClientSceneLobby;
+class ClientSceneRoom;
 
 class MainForm
 {
@@ -38,25 +36,22 @@ public:
 
 	void ShowModal();
 
-
 private:
 	void PacketProcess();
 	
 private:
+	std::shared_ptr<ClientSceneMain> m_pClientScene;
+	std::shared_ptr<ClientSceneLogin> m_pClientSceneLogin;
+	std::shared_ptr<ClientSceneLobby> m_pClientSceneLobby;
+	std::shared_ptr<ClientSceneRoom> m_pClientSceneRoom;
+
+	std::shared_ptr<listbox> m_RoomUserList;
+
 	std::unique_ptr<TcpNetwork> m_Network;
 
 	bool m_IsLogined = false;
 
-
-private:
 	std::unique_ptr<form> m_fm;
 
 	timer m_timer;
-		
-	std::shared_ptr<listbox> m_RoomUserList;
-
-	std::shared_ptr<ClientSceen> m_pClientSceen;
-	std::shared_ptr<ClientSceenLogin> m_pClientSceenLogin;
-	std::shared_ptr<ClientSceenLobby> m_pClientSceenLobby;
-	std::shared_ptr<ClientSceenRoom> m_pClientSceenRoom;
 };

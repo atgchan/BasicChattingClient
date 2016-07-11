@@ -7,21 +7,6 @@
   <ItemGroup>
     <ClInclude Include="MainForm.h" />
     <ClInclude Include="TcpNetwork.h" />
-    <ClInclude Include="IClientSceen.h">
-      <Filter>ClientSceen</Filter>
-    </ClInclude>
-    <ClInclude Include="ClientSceenLobby.h">
-      <Filter>ClientSceen</Filter>
-    </ClInclude>
-    <ClInclude Include="ClientSceen.h">
-      <Filter>ClientSceen</Filter>
-    </ClInclude>
-    <ClInclude Include="ClientSceenLogin.h">
-      <Filter>ClientSceen</Filter>
-    </ClInclude>
-    <ClInclude Include="ClientScreenRoom.h">
-      <Filter>ClientSceen</Filter>
-    </ClInclude>
     <ClInclude Include="MyCommon\conmanip.h">
       <Filter>MyCommon</Filter>
     </ClInclude>
@@ -33,6 +18,21 @@
     </ClInclude>
     <ClInclude Include="MyCommon\PacketID.h">
       <Filter>MyCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="IClientScene.h">
+      <Filter>ClientSceen</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSceneLogin.h">
+      <Filter>ClientSceen</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSceneLobby.h">
+      <Filter>ClientSceen</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSceneRoom.h">
+      <Filter>ClientSceen</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSceneMain.h">
+      <Filter>ClientSceen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,15 +5,15 @@
 #include <vector>
 #include <algorithm>
 
-#include "IClientSceen.h"
+#include "IClientScene.h"
 
 
 
-class ClientSceenRoom : public IClientSceen
+class ClientSceneRoom : public IClientScene
 {
 public:
-	ClientSceenRoom() {}
-	virtual ~ClientSceenRoom() {}
+	ClientSceneRoom() {}
+	virtual ~ClientSceneRoom() {}
 
 	virtual void Update() override
 	{
@@ -26,8 +26,8 @@ public:
 		case (short)PACKET_ID::ROOM_ENTER_RES:
 		{
 			auto pktRes = (NCommon::PktRoomEnterRes*)pData;
-			RequestRoomUserList(&pktRes->RoomInfo);
-			SetCurSceenType(CLIENT_SCEEN_TYPE::ROOM);
+		//	RequestRoomUserList(&pktRes->RoomInfo); //To-do
+			SetCurSceneType(CLIENT_SCENE_TYPE::ROOM);
 		}
 		break;
 
@@ -36,7 +36,7 @@ public:
 			auto pktRes = (NCommon::PktEnterRoomUserInfoRes*)pData;
 			if (pktRes->UserCount == 0)
 			{
-				return;
+				return false;
 			}
 		}
 		break;

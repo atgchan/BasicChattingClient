@@ -160,11 +160,11 @@
     <ClCompile Include="MainForm.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ClientSceen.h" />
-    <ClInclude Include="ClientSceenLobby.h" />
-    <ClInclude Include="ClientSceenLogin.h" />
-    <ClInclude Include="ClientScreenRoom.h" />
-    <ClInclude Include="IClientSceen.h" />
+    <ClInclude Include="ClientSceneMain.h" />
+    <ClInclude Include="ClientSceneLobby.h" />
+    <ClInclude Include="ClientSceneLogin.h" />
+    <ClInclude Include="ClientSceneRoom.h" />
+    <ClInclude Include="IClientScene.h" />
     <ClInclude Include="MainForm.h" />
     <ClInclude Include="MyCommon\conmanip.h" />
     <ClInclude Include="MyCommon\ErrorCode.h" />
