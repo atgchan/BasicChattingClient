@@ -3,6 +3,7 @@
 #pragma comment(lib, "ws2_32")
 #include <winsock2.h>
 #include <ws2tcpip.h>
+
 #include <deque>
 #include <memory>
 #include <thread>
@@ -11,7 +12,6 @@
 #include "MyCommon/ErrorCode.h"
 #include "MyCommon/PacketID.h"
 #include "MyCommon/Packet.h"
-
 
 const int MAX_PACKET_SIZE = 1024;
 const int MAX_SOCK_RECV_BUFFER = 8016;
@@ -50,22 +50,23 @@ public:
 		}
 
 		m_sock = socket(AF_INET, SOCK_STREAM, 0);
-		if (m_sock == INVALID_SOCKET) {
+		if (m_sock == INVALID_SOCKET) 
+		{
 			return false;
 		}
 
-		SOCKADDR_IN s_addr_in;
-		ZeroMemory(&s_addr_in, sizeof(s_addr_in));
-		s_addr_in.sin_family = AF_INET;
-		s_addr_in.sin_port = htons(port);
-		inet_pton(AF_INET, hostIP, (void *)&s_addr_in.sin_addr.s_addr);
+		SOCKADDR_IN serverAddr;
+		ZeroMemory(&serverAddr, sizeof(serverAddr));
+		serverAddr.sin_family = AF_INET;
+		serverAddr.sin_port = htons(port);
+		inet_pton(AF_INET, hostIP, (LPVOID)&serverAddr.sin_addr.s_addr);
 
 		//connect
-		if (connect(m_sock, (SOCKADDR*)&s_addr_in, sizeof(s_addr_in)) != 0) {
+		if (connect(m_sock, (SOCKADDR*)&serverAddr, sizeof(serverAddr)) != 0) 
+		{
 			return false;
 		}
-		//ClientLog("Connetct Server Success!\n");
-
+		
 		m_IsConnected = true;
 
 		//socket Nonblocking
@@ -87,20 +88,22 @@ public:
 			Clear();			
 		}
 
-		if (m_Thread.joinable()) {
+		if (m_Thread.joinable()) 
+		{
 			m_Thread.join();
-
 		}
 	}
 	void SendPacket(const short packetId, const short dataSize, char* pData)
 	{
 		//Beep(1000, 50);
+		
 		char data[MAX_PACKET_SIZE] = { 0, };
 
 		PacketHeader pktHeader{ packetId, dataSize };
 		memcpy(&data[0], (char*)&pktHeader, PACKET_HEADER_SIZE);
 
-		if (dataSize > 0) {
+		if (dataSize > 0) 
+		{
 			memcpy(&data[PACKET_HEADER_SIZE], pData, dataSize);
 		}
 		
@@ -121,12 +124,14 @@ public:
 	{
 		std::lock_guard<std::mutex> guard(m_mutex);
 
-		if (m_PacketQueue.empty()) {
+		if (m_PacketQueue.empty()) 
+		{
 			return RecvPacketInfo();
 		}
 
 		auto packet = m_PacketQueue.front();
 		m_PacketQueue.pop_front();
+
 		return packet;
 	}
 
@@ -147,7 +152,8 @@ private:
 		FD_ZERO(&read_set);
 		FD_SET(m_sock, &read_set);
 
-		if (select(m_sock + 1, &read_set, NULL, NULL, &tv) < 0) {
+		if (select(m_sock + 1, &read_set, NULL, NULL, &tv) < 0) 
+		{
 			return;
 		}
 
