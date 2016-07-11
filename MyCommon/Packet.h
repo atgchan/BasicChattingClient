@@ -166,6 +166,11 @@ namespace NCommon
 		short RoomIndex;
 	};
 
+	struct UserSmallInfoRoom
+	{
+		char UserID[MAX_USER_ID_SIZE + 1] = { 0, };
+	};
+
 	struct PktEnterRoomUserInfoRes : PktBase
 	{
 		short RoomIndex;
@@ -173,10 +178,6 @@ namespace NCommon
 		UserSmallInfoRoom UserInfo[MAX_USER_COUNT_PER_ROOM];
 	};
 
-	struct UserSmallInfoRoom
-	{
-		char UserID[MAX_USER_ID_SIZE + 1] = { 0, };
-	};
 
 
 	//- 룸 나가기 요청
