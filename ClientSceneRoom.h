@@ -25,9 +25,12 @@ public:
 		{
 		case (short)PACKET_ID::ROOM_ENTER_RES:
 		{
-			auto pktRes = (NCommon::PktRoomEnterRes*)pData;
-		//	RequestRoomUserList(&pktRes->RoomInfo); //To-do
-			SetCurSceneType(CLIENT_SCENE_TYPE::ROOM);
+			if (m_isUserListInitialized == false)
+			{
+				auto pktRes = (NCommon::PktRoomEnterRes*)pData;
+				RequestRoomUserList(&pktRes->RoomInfo);
+				SetCurSceneType(CLIENT_SCENE_TYPE::ROOM);
+			}
 		}
 		break;
 
@@ -38,6 +41,13 @@ public:
 			{
 				return false;
 			}
+			
+			for (int i = 0; i < pktRes->UserCount; ++i)
+			{
+				UpdateUserInfo(false, pktRes->UserInfo[i].UserID);
+			}
+
+			SetUserListGui();
 		}
 		break;
 
@@ -69,12 +79,74 @@ public:
 		m_pRefNetwork->SendPacket((short)PACKET_ID::ROOM_ENTER_USER_LIST_REQ, sizeof(reqPkt), (char*)&reqPkt);
 	}
 
+	void UpdateUserInfo(bool isToRemove, std::string userID)
+	{
+		if (m_isUserListInitialized == false)
+		{
+			if (isToRemove == false)
+			{
+				auto findIter = std::find_if(std::begin(m_UserInfos), std::end(m_UserInfos), [&userID](auto& ID) { return ID == userID; });
+
+				if (findIter == std::end(m_UserInfos))
+				{
+					m_UserInfos.push_back(userID);
+				}
+			}
+			else
+			{
+				m_UserInfos.remove_if([&userID](auto& ID) { return ID == userID; });
+			}
+		}
+		else
+		{
+			if (isToRemove == false)
+			{
+				for (auto& user : m_RoomUserList->at(0))
+				{
+					if (user.text(0) == userID) {
+						return;
+					}
+				}
+
+				m_RoomUserList->at(0).append(userID);
+			}
+			else
+			{
+				auto i = 0;
+				for (auto& user : m_RoomUserList->at(0))
+				{
+					if (user.text(0) == userID)
+					{
+						m_RoomUserList->erase(user);
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	void SetUserListGui()
+	{
+		m_isUserListInitialized = true;
+
+		m_RoomUserList->clear();
+
+		for (auto & userId : m_UserInfos)
+		{
+			m_RoomUserList->at(0).append({ userId });
+		}
+
+		m_UserInfos.clear();
+	}
+
 private:
 	form* m_pForm = nullptr;
-	std::shared_ptr<listbox> m_RoomUserList;
 
 	int m_MaxUserCount = 0;
 
 	bool m_IsUserListWorking = false;
-	std::list<std::string> m_UserList;
+	bool m_isUserListInitialized = false;
+
+	std::shared_ptr<listbox> m_RoomUserList;
+	std::list<std::string> m_UserInfos;
 };

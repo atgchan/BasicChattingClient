@@ -45,9 +45,7 @@ private:
 	std::shared_ptr<ClientSceneLobby> m_pClientSceneLobby;
 	std::shared_ptr<ClientSceneRoom> m_pClientSceneRoom;
 	std::shared_ptr<ClientChat> m_pClientChat;
-
-	std::shared_ptr<listbox> m_RoomUserList;
-
+	
 	std::unique_ptr<TcpNetwork> m_Network;
 
 	bool m_IsLogined = false;

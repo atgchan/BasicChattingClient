@@ -52,10 +52,7 @@ void MainForm::CreateGUI()
 	m_pClientSceneLogin->CreateUI(m_fm.get());
 
 	m_pClientChat->CreateUI(m_fm.get());
-
-	m_RoomUserList = std::make_shared<listbox>((form&)*m_fm.get(), nana::rectangle(22, 522, 120, 166));
-	m_RoomUserList->append_header("UserID", 90);
-
+	
 	//
 	m_pClientSceneLobby->CreateUI(m_fm.get());
 
