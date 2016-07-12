@@ -12,9 +12,6 @@
     <ClInclude Include="ClientChat.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="ClientSceenLobby.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="ClientSceneLobby.h">
       <Filter>Source</Filter>
     </ClInclude>

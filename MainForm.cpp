@@ -88,8 +88,8 @@ void MainForm::PacketProcess()
 		m_pClientScene->ProcessPacket(packet.PacketId, packet.pData);
 		m_pClientSceneLogin->ProcessPacket(packet.PacketId, packet.pData);
 		m_pClientSceneLobby->ProcessPacket(packet.PacketId, packet.pData);
-		m_pClientChat->ProcessPacket(packet.PacketId, packet.pData);
 		m_pClientSceneRoom->ProcessPacket(packet.PacketId, packet.pData);
+		m_pClientChat->ProcessPacket(packet.PacketId, packet.pData);
 
 		if (packet.pData != nullptr)
 		{
@@ -100,6 +100,7 @@ void MainForm::PacketProcess()
 	m_pClientScene->Update();
 	m_pClientSceneLogin->Update();
 	m_pClientSceneLobby->Update();
-	m_pClientChat->Update();
 	m_pClientSceneRoom->Update();
+	m_pClientChat->Update();
+
 }

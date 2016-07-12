@@ -41,7 +41,8 @@ void ClientChat::CreateUI(form* pf)
 	m_pForm = pf;
 	m_pChatBox = std::make_shared<textbox>((form&)*m_pForm, nana::rectangle(152, 522, 530, 140));
 	m_pChatBox->editable(false);
-
+	m_pChatBox->caption(L"즐거운 채팅창.\n");
+	
 	m_pChatInput = std::make_shared<textbox>((form&)*m_pForm, nana::rectangle(152, 661, 530, 27));
 	m_pChatInput->enabled(false);
 	m_pChatInput->events().key_press([&](const nana::arg_keyboard& event)
@@ -67,18 +68,27 @@ bool ClientChat::ProcessPacket(const short packetId, char * pData)
 		NCommon::PktLobbyEnterRes* pktData = (NCommon::PktLobbyEnterRes*)pData;
 		if (pktData->ErrorCode == (short)NCommon::ERROR_CODE::NONE)
 		{
-			m_pChatBox->append("로비에 입장하셨습니다.\n", false);
+			m_pChatBox->append("로비에 입장하셨습니다.\n", true);
 		}
 		
 	}break;
 	case(short)PACKET_ID::ROOM_ENTER_RES:
 	{
-
+		NCommon::PktRoomEnterRes* pktData = (NCommon::PktRoomEnterRes*)pData;
+		if (pktData->ErrorCode == (short)NCommon::ERROR_CODE::NONE)
+		{
+			m_pChatBox->append("방에 입장하셨습니다.\n", true);
+		}
 	}
-	case (short)PACKET_ID::LOBBY_CHAT_RES:
+	case (short)PACKET_ID::LOBBY_CHAT_NTF:
 	{
-		m_pChatBox->append("LOBBY ", false);
-		m_pChatBox->append(pData, false);
+		NCommon::PktLobbyChatNtf* pktData = (NCommon::PktLobbyChatNtf*)pData;
+		
+		char sentence[NCommon::MAX_LOBBY_CHAT_MSG_SIZE+1];
+		wcstombs(sentence, pktData->Msg, NCommon::MAX_LOBBY_CHAT_MSG_SIZE);
+		
+		m_pChatBox->append("LOBBY", false);
+		m_pChatBox->append(sentence, false);
 		m_pChatBox->append("\n", false);
 	}
 	break;

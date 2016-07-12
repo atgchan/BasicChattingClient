@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClientChat.h" />
-    <ClInclude Include="ClientSceenLobby.h" />
     <ClInclude Include="ClientSceneLobby.h" />
     <ClInclude Include="ClientSceneLogin.h" />
     <ClInclude Include="ClientSceneMain.h" />
