@@ -160,6 +160,7 @@
     <ClCompile Include="MainForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClientChat.h" />
     <ClInclude Include="ClientSceen.h" />
     <ClInclude Include="ClientSceenLobby.h" />
     <ClInclude Include="ClientSceenLogin.h" />

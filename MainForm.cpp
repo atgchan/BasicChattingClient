@@ -1,10 +1,11 @@
 
 #include "TcpNetwork.h"
+#include "MainForm.h"
 #include "ClientSceen.h"
 #include "ClientSceenLogin.h"
 #include "ClientSceenLobby.h"
 #include "ClientScreenRoom.h"
-#include "MainForm.h"
+#include "ClientChat.h"
 
 
 using PACKET_ID = NCommon::PACKET_ID;
@@ -32,6 +33,10 @@ void MainForm::Init()
 
 	m_pClientSceenLobby = std::make_shared<ClientSceenLobby>();
 	m_pClientSceenLobby->SetNetwork(m_Network.get());
+
+	m_pClientChat = std::make_shared<ClientChat>();
+	m_pClientChat->SetNetwork(m_Network.get());
+
 }
 
 void MainForm::CreateGUI()
@@ -47,13 +52,10 @@ void MainForm::CreateGUI()
 
 	m_pClientSceenLobby->CreateUI(m_fm.get());
 
+	m_pClientChat->CreateUI(m_fm.get());
+
 	m_RoomUserList = std::make_shared<listbox>((form&)*m_fm.get(), nana::rectangle(22, 522, 120, 166));
 	m_RoomUserList->append_header("UserID", 90);
-
-	m_chatBox = std::make_shared<textbox>((form&)*m_fm.get(), nana::rectangle( 152, 522, 530, 140));
-	m_chatBox->editable(false);
-	m_chatInput = std::make_shared<textbox>((form&)*m_fm.get(), nana::rectangle( 152, 661, 530, 27));
-	m_chatInput->focus();
 
 	m_timer.elapse([&]() { PacketProcess();});
 	m_timer.interval(32);
@@ -72,7 +74,6 @@ void MainForm::PacketProcess()
 	if (!m_Network) {
 		return;
 	}
-
 	
 	auto packet = m_Network->GetPacket();
 
@@ -81,6 +82,7 @@ void MainForm::PacketProcess()
 		m_pClientSceen->ProcessPacket(packet.PacketId, packet.pData);
 		m_pClientSceenLogin->ProcessPacket(packet.PacketId, packet.pData);
 		m_pClientSceenLobby->ProcessPacket(packet.PacketId, packet.pData);
+		m_pClientChat->ProcessPacket(packet.PacketId, packet.pData);
 
 		if (packet.pData != nullptr) {
 			delete[] packet.pData;
@@ -90,5 +92,6 @@ void MainForm::PacketProcess()
 	m_pClientSceen->Update();
 	m_pClientSceenLogin->Update();
 	m_pClientSceenLobby->Update();
+	m_pClientChat->Update();
 }
 

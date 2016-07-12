@@ -22,6 +22,9 @@
     <ClInclude Include="ClientScreenRoom.h">
       <Filter>ClientSceen</Filter>
     </ClInclude>
+    <ClInclude Include="ClientChat.h">
+      <Filter>ClientSceen</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ClientSceen">

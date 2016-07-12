@@ -30,7 +30,7 @@ public:
 			if (pktRes->ErrorCode == (short)NCommon::ERROR_CODE::NONE)
 			{
 				Init(pktRes->MaxUserCount);
-
+				SetCurSceenType(CLIENT_SCEEN_TYPE::LOBBY);
 				RequestRoomList(0);
 			}
 			else
@@ -84,6 +84,7 @@ public:
 		case (short)PACKET_ID::ROOM_CHANGED_INFO_NTF:
 		{
 			auto pktRes = (NCommon::PktChangedRoomInfoNtf*)pData;
+			SetCurSceenType(CLIENT_SCEEN_TYPE::ROOM);
 			UpdateRoomInfo(&pktRes->RoomInfo);
 		}
 		break;
@@ -91,6 +92,7 @@ public:
 		case (short)PACKET_ID::ROOM_ENTER_RES:
 		{
 			auto pktRes = (NCommon::PktRoomEnterRes*)pData;
+			SetCurSceenType(CLIENT_SCEEN_TYPE::ROOM);
 			UpdateRoomInfo(&pktRes->RoomInfo);
 		}
 			break;
