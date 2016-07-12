@@ -18,6 +18,24 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ClientChat.h" />
+    <ClInclude Include="ClientSceneLobby.h" />
+    <ClInclude Include="ClientSceneLogin.h" />
+    <ClInclude Include="ClientSceneMain.h" />
+    <ClInclude Include="ClientSceneRoom.h" />
+    <ClInclude Include="IClientScene.h" />
+    <ClInclude Include="MainForm.h" />
+    <ClInclude Include="MyCommon\conmanip.h" />
+    <ClInclude Include="MyCommon\ErrorCode.h" />
+    <ClInclude Include="MyCommon\Packet.h" />
+    <ClInclude Include="MyCommon\PacketID.h" />
+    <ClInclude Include="TcpNetwork.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainForm.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B6B2DE4A-EAC9-4C0E-8446-3C0726E8B1E8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -155,23 +173,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MainForm.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ClientSceneMain.h" />
-    <ClInclude Include="ClientSceneLobby.h" />
-    <ClInclude Include="ClientSceneLogin.h" />
-    <ClInclude Include="ClientSceneRoom.h" />
-    <ClInclude Include="IClientScene.h" />
-    <ClInclude Include="MainForm.h" />
-    <ClInclude Include="MyCommon\conmanip.h" />
-    <ClInclude Include="MyCommon\ErrorCode.h" />
-    <ClInclude Include="MyCommon\Packet.h" />
-    <ClInclude Include="MyCommon\PacketID.h" />
-    <ClInclude Include="TcpNetwork.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

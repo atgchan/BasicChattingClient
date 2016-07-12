@@ -34,6 +34,8 @@ public:
 				Init(pktRes->MaxUserCount);
 
 				RequestRoomList(0);
+
+				SetCurSceneType(CLIENT_SCENE_TYPE::LOBBY);
 			}
 			else
 			{
@@ -95,6 +97,7 @@ public:
 		{
 			auto pktRes = (NCommon::PktChangedRoomInfoNtf*)pData;
 			UpdateRoomInfo(&pktRes->RoomInfo);
+			SetCurSceneType(CLIENT_SCENE_TYPE::ROOM);
 		}
 			break;
 		case (short)PACKET_ID::ROOM_ENTER_RES:
@@ -149,21 +152,21 @@ public:
 		m_btnCreateRoom->caption("Create Room");
 		m_btnCreateRoom->events().click([&]() { this->RequestCreateRoom(); });
 
-		//GUI - Chat enter button
-		m_btnChatSend = std::make_unique<button>((form&)*m_pForm, nana::rectangle(525, 520, 102, 23));
-		m_btnChatSend->caption("Send");
-		m_btnChatSend->events().click([&]() { this->RequestChat(); });
-		
-		//GUI - Chat text box
-		m_txtChatInput = std::make_shared<textbox>((form&)*m_pForm, nana::rectangle(320, 520, 200, 23));
+		////GUI - Chat enter button
+		//m_btnChatSend = std::make_unique<button>((form&)*m_pForm, nana::rectangle(525, 520, 102, 23));
+		//m_btnChatSend->caption("Send");
+		//m_btnChatSend->events().click([&]() { this->RequestChat(); });
+		//
+		////GUI - Chat text box
+		//m_txtChatInput = std::make_shared<textbox>((form&)*m_pForm, nana::rectangle(320, 520, 200, 23));
 
-		//GUI - Chat Contents
-		m_labelChatContent = std::make_shared<label>((form&)*m_pForm, nana::rectangle(200, 550, 430, 130));
-		m_labelChatContent->caption("Have a good chattings");
+		////GUI - Chat Contents
+		//m_labelChatContent = std::make_shared<label>((form&)*m_pForm, nana::rectangle(200, 550, 430, 130));
+		//m_labelChatContent->caption("Have a good chattings");
 	
-		color labelColor;
-		labelColor.from_rgb(180, 200, 190);
-		m_labelChatContent->bgcolor(labelColor);
+		//color labelColor;
+		//labelColor.from_rgb(180, 200, 190);
+		//m_labelChatContent->bgcolor(labelColor);
 
 	}
 
@@ -406,9 +409,10 @@ private:
 	std::shared_ptr<textbox> m_txtRoomName;
 	
 	//lobby chat
-	std::shared_ptr<textbox> m_txtChatInput;
+	/*std::shared_ptr<textbox> m_txtChatInput;
 	std::unique_ptr<button> m_btnChatSend;
 	std::shared_ptr<label> m_labelChatContent;
+	*/
 
 	//맨 처음 로비에 입장했을 때 
 	//방정보, 유저정보, GUI에 대해

@@ -17,12 +17,12 @@
 using namespace nana;
 
 class TcpNetwork;
-
 class IClientScene;
 class ClientSceneMain;
 class ClientSceneLogin;
 class ClientSceneLobby;
 class ClientSceneRoom;
+class ClientChat;
 
 class MainForm
 {
@@ -38,12 +38,13 @@ public:
 
 private:
 	void PacketProcess();
-	
+
 private:
 	std::shared_ptr<ClientSceneMain> m_pClientScene;
 	std::shared_ptr<ClientSceneLogin> m_pClientSceneLogin;
 	std::shared_ptr<ClientSceneLobby> m_pClientSceneLobby;
 	std::shared_ptr<ClientSceneRoom> m_pClientSceneRoom;
+	std::shared_ptr<ClientChat> m_pClientChat;
 
 	std::shared_ptr<listbox> m_RoomUserList;
 
@@ -54,4 +55,5 @@ private:
 	std::unique_ptr<form> m_fm;
 
 	timer m_timer;
+
 };
