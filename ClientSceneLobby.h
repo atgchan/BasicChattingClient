@@ -34,6 +34,8 @@ public:
 				Init(pktRes->MaxUserCount);
 
 				RequestRoomList(0);
+
+				SetCurSceneType(CLIENT_SCENE_TYPE::LOBBY);
 			}
 			else
 			{
@@ -95,6 +97,7 @@ public:
 		{
 			auto pktRes = (NCommon::PktChangedRoomInfoNtf*)pData;
 			UpdateRoomInfo(&pktRes->RoomInfo);
+			SetCurSceneType(CLIENT_SCENE_TYPE::ROOM);
 		}
 			break;
 		case (short)PACKET_ID::ROOM_ENTER_RES:
@@ -120,13 +123,13 @@ public:
 			auto pktRes = (NCommon::PktLobbyChatRes*)pData;
 			if (pktRes->ErrorCode == (short)NCommon::ERROR_CODE::NONE)
 			{
-				char mbChatBuffer[NCommon::MAX_LOBBY_CHAT_MSG_SIZE] = { 0, };
+				/*char mbChatBuffer[NCommon::MAX_LOBBY_CHAT_MSG_SIZE] = { 0, };
 				wcstombs(mbChatBuffer, m_chatBuffer, NCommon::MAX_LOBBY_CHAT_MSG_SIZE);
 				std::string mbSzChatBuffer;
 				mbSzChatBuffer.append(mbChatBuffer);
 				m_tbChatContent->append(mbSzChatBuffer, true);
 
-				m_tbChatInput->reset();
+				m_tbChatInput->reset();*/
 			}
 			else
 			{
@@ -173,22 +176,21 @@ public:
 		m_btnCreateRoom->caption("Create Room");
 		m_btnCreateRoom->events().click([&]() { this->RequestCreateRoom(); });
 
-		//GUI - Chat enter button
-		m_btnChatSend = std::make_unique<button>((form&)*m_pForm, nana::rectangle(204, 520, 102, 23));
-		m_btnChatSend->caption("Send");
-		m_btnChatSend->events().click([&]() { this->RequestChat(); });
-		
-		//GUI - Chat input text box
-		m_tbChatInput = std::make_shared<textbox>((form&)*m_pForm, nana::rectangle(320, 520, 200, 23));
+		////GUI - Chat enter button
+		//m_btnChatSend = std::make_unique<button>((form&)*m_pForm, nana::rectangle(525, 520, 102, 23));
+		//m_btnChatSend->caption("Send");
+		//m_btnChatSend->events().click([&]() { this->RequestChat(); });
+		//
+		////GUI - Chat text box
+		//m_txtChatInput = std::make_shared<textbox>((form&)*m_pForm, nana::rectangle(320, 520, 200, 23));
 
-		//GUI - Chat Contents text box
-		m_tbChatContent = std::make_shared<textbox>((form&)*m_pForm, nana::rectangle(200, 550, 430, 130));
-		m_tbChatContent->caption("Have a good chattings");
-		m_tbChatContent->editable(false);
-
-		color tbColor;
-		tbColor.from_rgb(180, 200, 190);
-		m_tbChatContent->bgcolor(tbColor);
+		////GUI - Chat Contents
+		//m_labelChatContent = std::make_shared<label>((form&)*m_pForm, nana::rectangle(200, 550, 430, 130));
+		//m_labelChatContent->caption("Have a good chattings");
+	
+		//color labelColor;
+		//labelColor.from_rgb(180, 200, 190);
+		//m_labelChatContent->bgcolor(labelColor);
 
 	}
 
@@ -212,11 +214,11 @@ public:
 	{
 		std::string buffer;
 		
-		if (m_tbChatInput->getline(0, buffer) == false)
+		/*if (m_tbChatInput->getline(0, buffer) == false)
 		{
 			return;
 		}
-		
+		*/
 		NCommon::PktLobbyChatReq reqPkt;
 		mbstowcs(reqPkt.Msg, buffer.c_str(), NCommon::MAX_LOBBY_CHAT_MSG_SIZE);
 
@@ -225,7 +227,7 @@ public:
 			return;
 		}
 
-		memcpy(m_chatBuffer, reqPkt.Msg, NCommon::MAX_LOBBY_CHAT_MSG_SIZE);
+		//memcpy(m_chatBuffer, reqPkt.Msg, NCommon::MAX_LOBBY_CHAT_MSG_SIZE);
 
 		m_pRefNetwork->SendPacket((short)PACKET_ID::LOBBY_CHAT_REQ, sizeof(reqPkt), (char*)&reqPkt);
 	}
@@ -453,10 +455,11 @@ private:
 	std::shared_ptr<textbox> m_txtRoomName;
 	
 	//lobby chat
-	std::shared_ptr<textbox> m_tbChatInput;
+	/*std::shared_ptr<textbox> m_txtChatInput;
 	std::unique_ptr<button> m_btnChatSend;
-	std::shared_ptr<textbox> m_tbChatContent;
+	std::shared_ptr<label> m_labelChatContent;
 	wchar_t m_chatBuffer[NCommon::MAX_LOBBY_CHAT_MSG_SIZE] = { 0, };
+	*/
 
 	//맨 처음 로비에 입장했을 때 
 	//방정보, 유저정보, GUI에 대해
