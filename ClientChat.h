@@ -177,21 +177,65 @@ bool ClientChat::ProcessPacket(const short packetId, char * pData)
 
 	case (short)PACKET_ID::LOBBY_WHISPER_RES:
 	{
-		m_pChatBox->append("WHISHPER ", false);
-		m_pChatBox->append(pData, false);
+		m_pChatBox->append("my whisper : ", false);
+		m_pChatBox->append(m_myMsgBuffer, false);
 		m_pChatBox->append("\n", false);
 	}
-		break;
+	break;
+	case (short)PACKET_ID::LOBBY_WHISPER_NTF:
+	{
+		std::cout << "wishper Chat Notify" << std::endl;
+
+		NCommon::PktLobbyWhisperNtf* pktData = (NCommon::PktLobbyWhisperNtf*)pData;
+
+		char id[NCommon::MAX_USER_ID_SIZE + 1] = { '\0', };
+		memcpy(id, pktData->UserID, NCommon::MAX_USER_ID_SIZE);
+
+		char sentence[NCommon::MAX_ROOM_CHAT_MSG_SIZE + 1] = { '\0', };
+		memcpy(sentence, pktData->Msg, sizeof(sentence));
+
+		//		UnicodeToAnsi(pktData->Msg, sizeof(sentence), sentence);
+		m_pChatBox->append(id, true);
+		m_pChatBox->append(": ", true);
+		m_pChatBox->append(sentence, true);
+		m_pChatBox->append("\n", true);
 	}
+	break;
+	default:
+	break;
+	}// switch
 
 	return false;
 }
 
 bool ClientChat::ProcessMsg(std::string& msg)
 {
-	if (msg[0] == '/')
+	if (msg[0] == '/' && msg[1] == 'w')
 	{
-		//TODO : 슬래시 달려있을때 문자열 처리.. (귓속말 등등)
+		auto mainStr = msg.substr(3, msg.size());
+		auto pos = mainStr.find(" ") + 1;
+		std::cout << pos << std::endl;
+		auto id = mainStr.substr(0, pos);
+		auto wisper = mainStr.substr(pos, mainStr.size());;
+
+		std::cout << "id:" << id << " wisper:" << wisper << std::endl;
+
+		NCommon::PktLobbyWhisperReq reqPkt;
+		strcpy(reqPkt.TargetUserID, id.c_str());
+		wchar_t tmp[50];
+		std::copy(&wisper[0], &wisper[wisper.size()], tmp);
+		lstrcpyW(tmp, reqPkt.Msg);
+
+		int msgSize = min(msg.size(), sizeof(m_myMsgBuffer));
+
+		for (int i = 0; i < msgSize; i++)
+			m_myMsgBuffer[i] = msg.at(i);
+
+		m_myMsgBuffer[msgSize] = '\0';
+
+		std::cout << m_myMsgBuffer << std::endl;
+		
+		m_pRefNetwork->SendPacket((short)PACKET_ID::LOBBY_WHISPER_REQ, sizeof(reqPkt), (char*)&reqPkt);
 	}
 	else
 	{
