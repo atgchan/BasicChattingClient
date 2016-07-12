@@ -61,6 +61,14 @@ public:
 		}
 		break;
 
+		// 룸에서 나간 유저의 정보를 받아서 처리
+		case (short)PACKET_ID::ROOM_LEAVE_USER_NTF:
+		{
+			auto pktRes = (NCommon::PktRoomEnterUserInfoNtf*)pData;
+			UpdateUserInfo(true, pktRes->UserID);
+		}
+		break;
+		
 		default:
 			return false;
 		}
