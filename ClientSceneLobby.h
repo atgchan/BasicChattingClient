@@ -18,6 +18,22 @@ public:
 
 	virtual void Update() override 
 	{
+		if (GetCurSceneType() != CLIENT_SCENE_TYPE::LOBBY)
+		{
+			m_btnCreateRoom->enabled(false);
+			m_btnEnterRoom->enabled(false);
+			m_txtRoomName->enabled(false);
+			
+			m_RoomList->enabled(false);
+			m_UserList->enabled(false);
+		}
+		else {
+			m_btnCreateRoom->enabled(true);
+			m_btnEnterRoom->enabled(true);
+			m_txtRoomName->enabled(true);
+			m_RoomList->enabled(true);
+			m_UserList->enabled(true);
+		}
 	}
 
 	bool ProcessPacket(const short packetId, char* pData) override 
@@ -44,6 +60,7 @@ public:
 			}
 		}
 			break;
+
 		//로비입장 후 요청한 방리스트 패킷 처리
 		case (short)PACKET_ID::LOBBY_ENTER_ROOM_LIST_RES:
 		{
@@ -70,6 +87,7 @@ public:
 			}
 		}
 			break;
+
 		//방리스트 갱신 후 요청한 유저리스트 패킷 처리
 		case (short)PACKET_ID::LOBBY_ENTER_USER_LIST_RES:
 		{
@@ -106,6 +124,11 @@ public:
 			auto pktRes = (NCommon::PktRoomEnterRes*)pData;
 			UpdateRoomInfo(&pktRes->RoomInfo);
 			SetCurSceneType(CLIENT_SCENE_TYPE::ROOM);
+			m_UserList->clear();
+			m_UserList->bgcolor(color("#CCC"));
+
+			m_RoomList->clear();
+			m_RoomList->bgcolor(color("#CCC"));
 		}
 			break;
 		case (short)PACKET_ID::LOBBY_ENTER_USER_NTF:
@@ -140,11 +163,10 @@ public:
 			break;
 		case (short)PACKET_ID::LOBBY_CHAT_NTF:
 		{
-			auto pktRes = (NCommon::PktLobbyChatNtf*)pData;
-			UpdateChatContents(pktRes->UserID, pktRes->Msg);
-		}
-			break;
-		}
+
+		}	break;
+
+		}//switch;
 
 		return true;
 	}
@@ -206,11 +228,6 @@ public:
 		m_UserInfos.clear();
 	}
 	
-	void UpdateChatContents(char* userId, wchar_t* msg)
-	{
-
-	}
-
 	void RequestChat()
 	{
 		std::string buffer;

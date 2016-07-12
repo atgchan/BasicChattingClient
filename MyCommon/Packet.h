@@ -227,8 +227,26 @@ namespace NCommon
 		char UserID[MAX_USER_ID_SIZE + 1] = { 0, };
 		wchar_t Msg[MAX_LOBBY_CHAT_MSG_SIZE + 1] = { 0, };
 	};
+
+
+	//- ·Îºñ ±Ó¸»
+	struct PktLobbyWhisperReq
+	{
+		char TargetUserID[MAX_USER_ID_SIZE + 1] = { 0, };
+		wchar_t Msg[MAX_LOBBY_CHAT_MSG_SIZE + 1] = { 0, };
+	};
+
+	struct PktLobbyWhisperRes : PktBase
+	{
+	};
+
+	struct PktLobbyWhisperNtf
+	{
+		char UserID[MAX_USER_ID_SIZE + 1] = { 0, };
+		char TargetUserID[MAX_USER_ID_SIZE + 1] = { 0, };
+		wchar_t Msg[MAX_LOBBY_CHAT_MSG_SIZE + 1] = { 0, };
+	};
+
 #pragma pack(pop)
-
-
 	
 }
