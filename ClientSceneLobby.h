@@ -118,6 +118,30 @@ public:
 			auto pktRes = (NCommon::PktLobbyLeaveUserInfoNtf*)pData;
 			UpdateUserInfo(true, pktRes->UserID);
 		}
+		case (short)PACKET_ID::LOBBY_CHAT_RES:
+		{
+			auto pktRes = (NCommon::PktLobbyChatRes*)pData;
+			if (pktRes->ErrorCode == (short)NCommon::ERROR_CODE::NONE)
+			{
+				/*char mbChatBuffer[NCommon::MAX_LOBBY_CHAT_MSG_SIZE] = { 0, };
+				wcstombs(mbChatBuffer, m_chatBuffer, NCommon::MAX_LOBBY_CHAT_MSG_SIZE);
+				std::string mbSzChatBuffer;
+				mbSzChatBuffer.append(mbChatBuffer);
+				m_tbChatContent->append(mbSzChatBuffer, true);
+
+				m_tbChatInput->reset();*/
+			}
+			else
+			{
+				std::cout << "Error Code: " << pktRes->ErrorCode << std::endl;
+			}
+		}
+			break;
+		case (short)PACKET_ID::LOBBY_CHAT_NTF:
+		{
+			auto pktRes = (NCommon::PktLobbyChatNtf*)pData;
+			UpdateChatContents(pktRes->UserID, pktRes->Msg);
+		}
 			break;
 		}
 
@@ -181,9 +205,31 @@ public:
 		m_UserInfos.clear();
 	}
 	
-	void RequestChat()
+	void UpdateChatContents(char* userId, wchar_t* msg)
 	{
 
+	}
+
+	void RequestChat()
+	{
+		std::string buffer;
+		
+		/*if (m_tbChatInput->getline(0, buffer) == false)
+		{
+			return;
+		}
+		*/
+		NCommon::PktLobbyChatReq reqPkt;
+		mbstowcs(reqPkt.Msg, buffer.c_str(), NCommon::MAX_LOBBY_CHAT_MSG_SIZE);
+
+		if (reqPkt.Msg == nullptr)
+		{
+			return;
+		}
+
+		//memcpy(m_chatBuffer, reqPkt.Msg, NCommon::MAX_LOBBY_CHAT_MSG_SIZE);
+
+		m_pRefNetwork->SendPacket((short)PACKET_ID::LOBBY_CHAT_REQ, sizeof(reqPkt), (char*)&reqPkt);
 	}
 
 	//같은 로비에 있는 방리스트를 요청한다
@@ -412,6 +458,7 @@ private:
 	/*std::shared_ptr<textbox> m_txtChatInput;
 	std::unique_ptr<button> m_btnChatSend;
 	std::shared_ptr<label> m_labelChatContent;
+	wchar_t m_chatBuffer[NCommon::MAX_LOBBY_CHAT_MSG_SIZE] = { 0, };
 	*/
 
 	//맨 처음 로비에 입장했을 때 
