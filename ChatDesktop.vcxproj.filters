@@ -1,34 +1,60 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MainForm.cpp" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{dcc36e5b-6a9f-42cd-b8da-7afa9b1a4c19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\MyCommon">
+      <UniqueIdentifier>{a1901197-1f1e-4d3f-be2f-401c6c4de0a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainForm.h" />
-    <ClInclude Include="TcpNetwork.h" />
-    <ClInclude Include="IClientSceen.h">
-      <Filter>ClientSceen</Filter>
+    <ClInclude Include="ClientChat.h">
+      <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="ClientSceenLobby.h">
-      <Filter>ClientSceen</Filter>
+      <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="ClientSceen.h">
-      <Filter>ClientSceen</Filter>
+    <ClInclude Include="ClientSceneLobby.h">
+      <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="ClientSceenLogin.h">
-      <Filter>ClientSceen</Filter>
+    <ClInclude Include="ClientSceneLogin.h">
+      <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="ClientScreenRoom.h">
-      <Filter>ClientSceen</Filter>
+    <ClInclude Include="ClientSceneMain.h">
+      <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="ClientChat.h">
-      <Filter>ClientSceen</Filter>
+    <ClInclude Include="ClientSceneRoom.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="IClientScene.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="MainForm.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="TcpNetwork.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCommon\conmanip.h">
+      <Filter>Source\MyCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCommon\ErrorCode.h">
+      <Filter>Source\MyCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCommon\Packet.h">
+      <Filter>Source\MyCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCommon\PacketID.h">
+      <Filter>Source\MyCommon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="ClientSceen">
-      <UniqueIdentifier>{90a8a737-9009-4239-94f1-b916e2187f81}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MainForm.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

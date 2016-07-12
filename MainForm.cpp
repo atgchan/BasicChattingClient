@@ -1,19 +1,16 @@
-
 #include "TcpNetwork.h"
 #include "MainForm.h"
-#include "ClientSceen.h"
-#include "ClientSceenLogin.h"
-#include "ClientSceenLobby.h"
-#include "ClientScreenRoom.h"
+#include "ClientSceneMain.h"
+#include "ClientSceneLogin.h"
+#include "ClientSceneLobby.h"
+#include "ClientSceneRoom.h"
 #include "ClientChat.h"
-
 
 using PACKET_ID = NCommon::PACKET_ID;
 
-
 MainForm::MainForm() {}
 
-MainForm::~MainForm() 
+MainForm::~MainForm()
 {
 	if (m_Network)
 	{
@@ -25,38 +22,47 @@ void MainForm::Init()
 {
 	m_Network = std::make_unique<TcpNetwork>();
 
-	m_pClientSceen = std::make_shared<ClientSceen>();
-	m_pClientSceen->SetNetwork(m_Network.get());
+	m_pClientScene = std::make_shared<ClientSceneMain>();
+	m_pClientScene->SetNetwork(m_Network.get());
 
-	m_pClientSceenLogin = std::make_shared<ClientSceenLogin>();
-	m_pClientSceenLogin->SetNetwork(m_Network.get());
+	m_pClientSceneLogin = std::make_shared<ClientSceneLogin>();
+	m_pClientSceneLogin->SetNetwork(m_Network.get());
 
-	m_pClientSceenLobby = std::make_shared<ClientSceenLobby>();
-	m_pClientSceenLobby->SetNetwork(m_Network.get());
+	m_pClientSceneLobby = std::make_shared<ClientSceneLobby>();
+	m_pClientSceneLobby->SetNetwork(m_Network.get());
 
 	m_pClientChat = std::make_shared<ClientChat>();
 	m_pClientChat->SetNetwork(m_Network.get());
 
+	m_pClientSceneRoom = std::make_shared<ClientSceneRoom>();
+	m_pClientSceneRoom->SetNetwork(m_Network.get());
 }
 
 void MainForm::CreateGUI()
 {
-	// https://moqups.com/   ¿©±â¿¡¼­ µðÀÚÀÎ ÇÏÀÚ
+	// https://moqups.com/   ï¿½ï¿½ï¿½â¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	m_fm = std::make_unique<form>(API::make_center(900, 700));
 	m_fm->caption("Chat Client");
 
-	m_pClientSceen->CreateUI(m_fm.get());
-	
-	m_pClientSceenLogin->CreateUI(m_fm.get());
+	//connect & login
+	m_pClientScene->CreateUI(m_fm.get());
 
-	m_pClientSceenLobby->CreateUI(m_fm.get());
+	//get lobby list & enter lobby
+	m_pClientSceneLogin->CreateUI(m_fm.get());
 
 	m_pClientChat->CreateUI(m_fm.get());
 
 	m_RoomUserList = std::make_shared<listbox>((form&)*m_fm.get(), nana::rectangle(22, 522, 120, 166));
 	m_RoomUserList->append_header("UserID", 90);
 
+	//
+	m_pClientSceneLobby->CreateUI(m_fm.get());
+
+	//
+	m_pClientSceneRoom->CreateUI(m_fm.get());
+
+	//
 	m_timer.elapse([&]() { PacketProcess();});
 	m_timer.interval(32);
 	m_timer.start();
@@ -71,27 +77,29 @@ void MainForm::ShowModal()
 
 void MainForm::PacketProcess()
 {
-	if (!m_Network) {
+	if (!m_Network)
+	{
 		return;
 	}
-	
 	auto packet = m_Network->GetPacket();
 
 	if (packet.PacketId != 0)
 	{
-		m_pClientSceen->ProcessPacket(packet.PacketId, packet.pData);
-		m_pClientSceenLogin->ProcessPacket(packet.PacketId, packet.pData);
-		m_pClientSceenLobby->ProcessPacket(packet.PacketId, packet.pData);
+		m_pClientScene->ProcessPacket(packet.PacketId, packet.pData);
+		m_pClientSceneLogin->ProcessPacket(packet.PacketId, packet.pData);
+		m_pClientSceneLobby->ProcessPacket(packet.PacketId, packet.pData);
 		m_pClientChat->ProcessPacket(packet.PacketId, packet.pData);
+		m_pClientSceneRoom->ProcessPacket(packet.PacketId, packet.pData);
 
-		if (packet.pData != nullptr) {
+		if (packet.pData != nullptr)
+		{
 			delete[] packet.pData;
 		}
 	}
-	
-	m_pClientSceen->Update();
-	m_pClientSceenLogin->Update();
-	m_pClientSceenLobby->Update();
-	m_pClientChat->Update();
-}
 
+	m_pClientScene->Update();
+	m_pClientSceneLogin->Update();
+	m_pClientSceneLobby->Update();
+	m_pClientChat->Update();
+	m_pClientSceneRoom->Update();
+}

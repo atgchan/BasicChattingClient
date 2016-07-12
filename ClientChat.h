@@ -1,9 +1,9 @@
 #pragma once
 
 #include "TcpNetwork.h"
-#include "IClientSceen.h"
+#include "IClientScene.h"
 
-class ClientChat : public IClientSceen
+class ClientChat : public IClientScene
 {
 public:
 	ClientChat() {};
@@ -12,8 +12,8 @@ public:
 	void CreateUI(form* from);
 	virtual void Update() override 
 	{
-		if (GetCurSceenType() == CLIENT_SCEEN_TYPE::LOBBY ||
-			GetCurSceenType() == CLIENT_SCEEN_TYPE::ROOM)
+		if (GetCurSceneType() == CLIENT_SCENE_TYPE::LOBBY ||
+			GetCurSceneType() == CLIENT_SCENE_TYPE::ROOM)
 		{
 			m_pChatInput->enabled(true);
 		}
@@ -111,7 +111,7 @@ bool ClientChat::ProcessMsg(std::string& msg)
 	}
 	else
 	{
-		if (GetCurSceenType() == CLIENT_SCEEN_TYPE::LOBBY)
+		if (GetCurSceneType() == CLIENT_SCENE_TYPE::LOBBY)
 		{
 			//로비 채팅
 			NCommon::PktLobbyChatReq reqPkt;
@@ -120,7 +120,7 @@ bool ClientChat::ProcessMsg(std::string& msg)
 
 			m_pRefNetwork->SendPacket((short)PACKET_ID::LOBBY_CHAT_REQ, sizeof(reqPkt), (char*)&reqPkt);
 		}
-		else if (GetCurSceenType() == CLIENT_SCEEN_TYPE::ROOM)
+		else if (GetCurSceneType() == CLIENT_SCENE_TYPE::ROOM)
 		{
 			//룸채팅
 			NCommon::PktRoomChatReq reqPkt;

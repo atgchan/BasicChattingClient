@@ -22,8 +22,7 @@ class TcpNetwork;
 
 using PACKET_ID = NCommon::PACKET_ID;
 
-
-enum class CLIENT_SCEEN_TYPE
+enum class CLIENT_SCENE_TYPE : int
 {
 	CONNECT = 0,
 	LOGIN = 1,
@@ -31,33 +30,30 @@ enum class CLIENT_SCEEN_TYPE
 	ROOM = 3,
 };
 
-class IClientSceen
+class IClientScene
 {
 public:
-	IClientSceen() {}
-	virtual ~IClientSceen() {}
+	IClientScene() {}
+	virtual ~IClientScene() {}
 
 	virtual void Update() {}
 
 	virtual bool ProcessPacket(const short packetId, char* pData) { return false; }
 
-
 	void SetNetwork(TcpNetwork* pNetwork) { m_pRefNetwork = pNetwork; }
-
 	
 	static void UnicodeToAnsi(const wchar_t* pszText, const int destSize, char* pszDest)
 	{
 		_snprintf_s(pszDest, destSize, _TRUNCATE, "%S", pszText);
 	}
 	
-	static CLIENT_SCEEN_TYPE GetCurSceenType() { return m_CurSceenType; }
-	static void SetCurSceenType(const CLIENT_SCEEN_TYPE sceenType) { m_CurSceenType = sceenType; }
-
+	static CLIENT_SCENE_TYPE GetCurSceneType() { return m_CurSceneType; }
+	static void SetCurSceneType(const CLIENT_SCENE_TYPE sceenType) { m_CurSceneType = sceenType; }
 
 protected:
 	TcpNetwork* m_pRefNetwork;
 
-	static CLIENT_SCEEN_TYPE m_CurSceenType;
+	static CLIENT_SCENE_TYPE m_CurSceneType;
 };
 
-CLIENT_SCEEN_TYPE IClientSceen::m_CurSceenType = CLIENT_SCEEN_TYPE::CONNECT;
+CLIENT_SCENE_TYPE IClientScene::m_CurSceneType = CLIENT_SCENE_TYPE::CONNECT;
