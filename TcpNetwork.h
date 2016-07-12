@@ -9,8 +9,8 @@
 #include <thread>
 #include <mutex>
 
-#include "MyCommon/ErrorCode.h"
-#include "MyCommon/PacketID.h"
+//#include "MyCommon/ErrorCode.h"
+//#include "MyCommon/PacketID.h"
 #include "MyCommon/Packet.h"
 
 const int MAX_PACKET_SIZE = 1024;
@@ -95,8 +95,6 @@ public:
 	}
 	void SendPacket(const short packetId, const short dataSize, char* pData)
 	{
-		//Beep(1000, 50);
-		
 		char data[MAX_PACKET_SIZE] = { 0, };
 
 		PacketHeader pktHeader{ packetId, dataSize };
