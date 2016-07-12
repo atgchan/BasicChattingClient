@@ -104,7 +104,7 @@ public:
 		{
 			memcpy(&data[PACKET_HEADER_SIZE], pData, dataSize);
 		}
-		
+	
 		send(m_sock, data, dataSize + PACKET_HEADER_SIZE, 0);
 	}
 
