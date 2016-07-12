@@ -112,6 +112,7 @@ bool ClientChat::ProcessPacket(const short packetId, char * pData)
 		}
 	}
 		break;
+
 	case (short)PACKET_ID::LOBBY_CHAT_NTF:
 	{
 		std::cout << "Lobby Chat Notify" << std::endl;
@@ -132,14 +133,48 @@ bool ClientChat::ProcessPacket(const short packetId, char * pData)
 		m_pChatBox->append("\n", true);
 	}
 		break;
+
 	case (short)PACKET_ID::ROOM_CHAT_RES:
 	{
-		m_pChatBox->append("ROOM ", false);
-		m_pChatBox->append(pData, false);
-		m_pChatBox->append("\n", false);
+		std::cout << "Robby Chat Res" << std::endl;
 
+		NCommon::PktRoomChatRes* pktData = (NCommon::PktRoomChatRes*)pData;
+
+		if ((short)NCommon::ERROR_CODE::NONE == pktData->ErrorCode)
+		{
+			//			m_pChatInput->reset();
+			m_pChatBox->append("me: ", true);
+			m_pChatBox->append(m_myMsgBuffer, true);
+			m_pChatBox->append("\n", true);
+		}
+		else
+		{
+			std::cout << "Room Chat Err" << std::endl;
+		}
 	}
 		break;
+
+	case (short)PACKET_ID::ROOM_CHAT_NTF:
+	{
+		std::cout << "Room Chat Notify" << std::endl;
+
+		NCommon::PktRoomChatNtf* pktData = (NCommon::PktRoomChatNtf*)pData;
+
+		char id[NCommon::MAX_USER_ID_SIZE + 1] = { '\0', };
+		memcpy(id, pktData->UserID, NCommon::MAX_USER_ID_SIZE);
+
+		char sentence[NCommon::MAX_ROOM_CHAT_MSG_SIZE + 1] = { '\0', };
+		memcpy(sentence, pktData->Msg, sizeof(sentence));
+
+		//		UnicodeToAnsi(pktData->Msg, sizeof(sentence), sentence);
+
+		m_pChatBox->append(id, true);
+		m_pChatBox->append(": ", true);
+		m_pChatBox->append(sentence, true);
+		m_pChatBox->append("\n", true);
+	}
+	break;
+
 	case (short)PACKET_ID::LOBBY_WHISPER_RES:
 	{
 		m_pChatBox->append("WHISHPER ", false);
@@ -193,9 +228,18 @@ bool ClientChat::ProcessMsg(std::string& msg)
 		else if (GetCurSceneType() == CLIENT_SCENE_TYPE::ROOM)
 		{
 			//∑Î√§∆√
+			int msgSize = min(msg.size(), sizeof(m_myMsgBuffer));
+
+			for (int i = 0; i < msgSize; i++)
+				m_myMsgBuffer[i] = msg.at(i);
+
+			m_myMsgBuffer[msgSize] = '\0';
+
+			std::cout << m_myMsgBuffer << std::endl;
+
 			NCommon::PktRoomChatReq reqPkt;
-			std::wstring wMsg = std::wstring(msg.begin(), msg.end());
-			wcscpy(reqPkt.Msg, wMsg.c_str());
+
+			memcpy(reqPkt.Msg, m_myMsgBuffer, msgSize);
 
 			m_pRefNetwork->SendPacket((short)PACKET_ID::ROOM_CHAT_REQ, sizeof(reqPkt), (char*)&reqPkt);
 		}
