@@ -106,6 +106,7 @@ public:
 			}
 		}
 			break;
+
 		case (short)PACKET_ID::ROOM_CHANGED_INFO_NTF:
 		{
 			auto pktRes = (NCommon::PktChangedRoomInfoNtf*)pData;
@@ -113,6 +114,7 @@ public:
 			SetCurSceneType(CLIENT_SCENE_TYPE::ROOM);
 		}
 			break;
+
 		case (short)PACKET_ID::ROOM_ENTER_RES:
 		{
 			auto pktRes = (NCommon::PktRoomEnterRes*)pData;
@@ -120,17 +122,20 @@ public:
 			SetCurSceneType(CLIENT_SCENE_TYPE::ROOM);
 		}
 			break;
+
 		case (short)PACKET_ID::LOBBY_ENTER_USER_NTF:
 		{
 			auto pktRes = (NCommon::PktLobbyNewUserInfoNtf*)pData;
 			UpdateUserInfo(false, pktRes->UserID);
 		}
 			break;
+
 		case (short)PACKET_ID::LOBBY_LEAVE_USER_NTF:
 		{
 			auto pktRes = (NCommon::PktLobbyLeaveUserInfoNtf*)pData;
 			UpdateUserInfo(true, pktRes->UserID);
 		}
+
 		case (short)PACKET_ID::LOBBY_CHAT_RES:
 		{
 			auto pktRes = (NCommon::PktLobbyChatRes*)pData;
