@@ -105,7 +105,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\MyBin\</OutDir>
     <IncludePath>.\nana\include;$(IncludePath)</IncludePath>
-    <LibraryPath>.\nana\build\bin;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\nana\build\bin;.\nana\build\bin;$(LibraryPath)</LibraryPath>
     <SourcePath>.\nana/source;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

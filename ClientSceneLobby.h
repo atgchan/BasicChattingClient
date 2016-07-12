@@ -7,12 +7,13 @@
 #include <vector>
 #include <algorithm>
 
+#include <clocale>
 //입장한 로비에서의 일들을 처리한다
 
 class ClientSceneLobby : public IClientScene
 {
 public:
-	ClientSceneLobby() {}
+	ClientSceneLobby() { std::setlocale(LC_ALL, ""); }
 	virtual ~ClientSceneLobby() {}
 
 	virtual void Update() override 
