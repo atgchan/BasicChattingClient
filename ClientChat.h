@@ -6,7 +6,7 @@
 class ClientChat : public IClientScene
 {
 public:
-	ClientChat() {};
+	ClientChat() { std::setlocale(LC_ALL, "utf-8"); };
 	virtual ~ClientChat() {};
 
 	void CreateUI(form* from);
@@ -95,6 +95,8 @@ bool ClientChat::ProcessPacket(const short packetId, char * pData)
 		break;
 	case (short)PACKET_ID::LOBBY_CHAT_RES:
 	{
+		std::cout << "Lobby Chat Res" << std::endl;
+
 		NCommon::PktLobbyChatRes* pktData = (NCommon::PktLobbyChatRes*)pData;
 
 		if ((short)NCommon::ERROR_CODE::NONE == pktData->ErrorCode)
@@ -112,14 +114,18 @@ bool ClientChat::ProcessPacket(const short packetId, char * pData)
 		break;
 	case (short)PACKET_ID::LOBBY_CHAT_NTF:
 	{
+		std::cout << "Lobby Chat Notify" << std::endl;
+
 		NCommon::PktLobbyChatNtf* pktData = (NCommon::PktLobbyChatNtf*)pData;
 		
 		char id[NCommon::MAX_USER_ID_SIZE + 1] = { '\0', };
 		memcpy(id, pktData->UserID, NCommon::MAX_USER_ID_SIZE);
 
 		char sentence[NCommon::MAX_LOBBY_CHAT_MSG_SIZE + 1] = { '\0', };
-		wcstombs(sentence, pktData->Msg, NCommon::MAX_LOBBY_CHAT_MSG_SIZE);
-		
+		memcpy(sentence, pktData->Msg, sizeof(sentence));
+
+//		UnicodeToAnsi(pktData->Msg, sizeof(sentence), sentence);
+
 		m_pChatBox->append(id, true);
 		m_pChatBox->append(": ", true);
 		m_pChatBox->append(sentence, true);
@@ -166,10 +172,21 @@ bool ClientChat::ProcessMsg(std::string& msg)
 
 			std::cout << m_myMsgBuffer << std::endl;
 
+			//textbox->append(...) 내부에서 string을 wstring으로 변환한다
+			//multibyte -> wide 
 			NCommon::PktLobbyChatReq reqPkt;
 
-			std::wstring wMsg = std::wstring(msg.begin(), msg.end());
-			wcscpy(reqPkt.Msg, wMsg.c_str());
+			memcpy(reqPkt.Msg, m_myMsgBuffer, msgSize);
+
+//			std::wstring wMsg = std::wstring(msg.begin(), msg.end());
+//			std::wstring wMsg = to_wstring(msg);
+//			std::wcout << wMsg << std::endl;
+//			std::cout << msg << std::endl;
+
+//			mbstowcs(reqPkt.Msg, m_myMsgBuffer, sizeof(m_myMsgBuffer));
+			
+//			memcpy_s(reqPkt.Msg, sizeof(reqPkt.Msg), wMsg.c_str(), sizeof(wMsg));
+
 
 			m_pRefNetwork->SendPacket((short)PACKET_ID::LOBBY_CHAT_REQ, sizeof(reqPkt), (char*)&reqPkt);
 		}

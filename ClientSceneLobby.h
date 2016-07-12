@@ -7,12 +7,13 @@
 #include <vector>
 #include <algorithm>
 
+#include <clocale>
 //입장한 로비에서의 일들을 처리한다
 
 class ClientSceneLobby : public IClientScene
 {
 public:
-	ClientSceneLobby() {}
+	ClientSceneLobby() { std::setlocale(LC_ALL, ""); }
 	virtual ~ClientSceneLobby() {}
 
 	virtual void Update() override 
@@ -22,11 +23,16 @@ public:
 			m_btnCreateRoom->enabled(false);
 			m_btnEnterRoom->enabled(false);
 			m_txtRoomName->enabled(false);
+			
+			m_RoomList->enabled(false);
+			m_UserList->enabled(false);
 		}
 		else {
 			m_btnCreateRoom->enabled(true);
 			m_btnEnterRoom->enabled(true);
 			m_txtRoomName->enabled(true);
+			m_RoomList->enabled(true);
+			m_UserList->enabled(true);
 		}
 	}
 
@@ -120,6 +126,11 @@ public:
 			auto pktRes = (NCommon::PktRoomEnterRes*)pData;
 			UpdateRoomInfo(&pktRes->RoomInfo);
 			SetCurSceneType(CLIENT_SCENE_TYPE::ROOM);
+			m_UserList->clear();
+			m_UserList->bgcolor(color("#CCC"));
+
+			m_RoomList->clear();
+			m_RoomList->bgcolor(color("#CCC"));
 		}
 			break;
 
@@ -157,11 +168,10 @@ public:
 			break;
 		case (short)PACKET_ID::LOBBY_CHAT_NTF:
 		{
-			auto pktRes = (NCommon::PktLobbyChatNtf*)pData;
-			UpdateChatContents(pktRes->UserID, pktRes->Msg);
-		}
-			break;
-		}
+
+		}	break;
+
+		}//switch;
 
 		return true;
 	}
@@ -223,11 +233,6 @@ public:
 		m_UserInfos.clear();
 	}
 	
-	void UpdateChatContents(char* userId, wchar_t* msg)
-	{
-
-	}
-
 	void RequestChat()
 	{
 		std::string buffer;

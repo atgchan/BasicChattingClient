@@ -97,15 +97,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\Bin\</OutDir>
-    <IncludePath>C:\nana\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\nana\build\bin;$(LibraryPath)</LibraryPath>
-    <SourcePath>C:\nana\source;$(SourcePath)</SourcePath>
+    <IncludePath>$(SolutionDir)\nana\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\nana\build\bin;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SolutionDir)\nana\source;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\MyBin\</OutDir>
     <IncludePath>.\nana\include;$(IncludePath)</IncludePath>
-    <LibraryPath>.\nana\build\bin;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\nana\build\bin;.\nana\build\bin;$(LibraryPath)</LibraryPath>
     <SourcePath>.\nana/source;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
