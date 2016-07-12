@@ -148,6 +148,23 @@ public:
 		m_btnCreateRoom = std::make_unique<button>((form&)*m_pForm, nana::rectangle(525, 490, 102, 23));
 		m_btnCreateRoom->caption("Create Room");
 		m_btnCreateRoom->events().click([&]() { this->RequestCreateRoom(); });
+
+		//GUI - Chat enter button
+		m_btnChatSend = std::make_unique<button>((form&)*m_pForm, nana::rectangle(525, 520, 102, 23));
+		m_btnChatSend->caption("Send");
+		m_btnChatSend->events().click([&]() { this->RequestChat(); });
+		
+		//GUI - Chat text box
+		m_txtChatInput = std::make_shared<textbox>((form&)*m_pForm, nana::rectangle(320, 520, 200, 23));
+
+		//GUI - Chat Contents
+		m_labelChatContent = std::make_shared<label>((form&)*m_pForm, nana::rectangle(200, 550, 430, 130));
+		m_labelChatContent->caption("Have a good chattings");
+	
+		color labelColor;
+		labelColor.from_rgb(180, 200, 190);
+		m_labelChatContent->bgcolor(labelColor);
+
 	}
 
 	void Init(const int maxUserCount)
@@ -161,6 +178,11 @@ public:
 		m_UserInfos.clear();
 	}
 	
+	void RequestChat()
+	{
+
+	}
+
 	//같은 로비에 있는 방리스트를 요청한다
 	void RequestRoomList(const short startIndex)
 	{
@@ -371,13 +393,23 @@ public:
 	}
 
 private:
+	//GUI handler
 	form* m_pForm = nullptr;
+
+	//list
 	std::shared_ptr<listbox> m_RoomList;
 	std::shared_ptr<listbox> m_UserList;
+	
+	//room
 	std::unique_ptr<button> m_btnEnterRoom;
 	std::unique_ptr<button> m_btnCreateRoom;
 	std::shared_ptr<textbox> m_txtRoomName;
 	
+	//lobby chat
+	std::shared_ptr<textbox> m_txtChatInput;
+	std::unique_ptr<button> m_btnChatSend;
+	std::shared_ptr<label> m_labelChatContent;
+
 	//맨 처음 로비에 입장했을 때 
 	//방정보, 유저정보, GUI에 대해
 	//초기화를 한 뒤 true로 바꾼다
