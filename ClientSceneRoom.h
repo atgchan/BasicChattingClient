@@ -68,7 +68,16 @@ public:
 			UpdateUserInfo(true, pktRes->UserID);
 		}
 		break;
-		
+		// 룸에서 나가려 하는 유저의 정보를 받아서 처리
+		case (short)PACKET_ID::LOBBY_ENTER_RES:
+		{
+			auto pkRes = (NCommon::PktRoomLeaveRes*)pData;
+			if (pkRes->ErrorCode == (short)NCommon::ERROR_CODE::NONE)
+			{
+				m_RoomUserList->clear();
+				SetCurSceneType(CLIENT_SCENE_TYPE::LOBBY);
+			}
+		}
 		default:
 			return false;
 		}

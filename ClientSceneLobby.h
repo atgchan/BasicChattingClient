@@ -34,6 +34,15 @@ public:
 			m_RoomList->enabled(true);
 			m_UserList->enabled(true);
 		}
+
+		if (GetCurSceneType() == CLIENT_SCENE_TYPE::ROOM)
+		{
+			m_btnLeaveRoom->enabled(true);
+		}
+		else
+		{
+			m_btnLeaveRoom->enabled(false);
+		}
 	}
 
 	bool ProcessPacket(const short packetId, char* pData) override 
@@ -51,8 +60,15 @@ public:
 				Init(pktRes->MaxUserCount);
 
 				RequestRoomList(0);
-
+				
 				SetCurSceneType(CLIENT_SCENE_TYPE::LOBBY);
+
+
+				m_RoomList->bgcolor(color("#FFF"));
+				m_RoomList->enabled(true);
+				m_UserList->bgcolor(color("#FFF"));
+				m_UserList->enabled(true);
+
 			}
 			else
 			{
@@ -131,6 +147,8 @@ public:
 
 			m_RoomList->clear();
 			m_RoomList->bgcolor(color("#CCC"));
+
+			m_txtRoomName->reset();
 		}
 			break;
 
@@ -197,29 +215,18 @@ public:
 		m_btnEnterRoom->events().click([&]() { this->RequestEnterRoom(); });
 
 		//GUI - Room name text box
-		m_txtRoomName = std::make_shared<textbox>((form&)*m_pForm, nana::rectangle(320, 490, 200, 23));
+		m_txtRoomName = std::make_shared<textbox>((form&)*m_pForm, nana::rectangle(320, 490, 150, 23));
 
 		//GUI - Create the room button
-		m_btnCreateRoom = std::make_unique<button>((form&)*m_pForm, nana::rectangle(525, 490, 102, 23));
+		m_btnCreateRoom = std::make_unique<button>((form&)*m_pForm, nana::rectangle(475, 490, 102, 23));
 		m_btnCreateRoom->caption("Create Room");
 		m_btnCreateRoom->events().click([&]() { this->RequestCreateRoom(); });
 
-		////GUI - Chat enter button
-		//m_btnChatSend = std::make_unique<button>((form&)*m_pForm, nana::rectangle(525, 520, 102, 23));
-		//m_btnChatSend->caption("Send");
-		//m_btnChatSend->events().click([&]() { this->RequestChat(); });
-		//
-		////GUI - Chat text box
-		//m_txtChatInput = std::make_shared<textbox>((form&)*m_pForm, nana::rectangle(320, 520, 200, 23));
-
-		////GUI - Chat Contents
-		//m_labelChatContent = std::make_shared<label>((form&)*m_pForm, nana::rectangle(200, 550, 430, 130));
-		//m_labelChatContent->caption("Have a good chattings");
-	
-		//color labelColor;
-		//labelColor.from_rgb(180, 200, 190);
-		//m_labelChatContent->bgcolor(labelColor);
-
+		//GUI - leave button
+		m_btnLeaveRoom = std::make_unique<button>((form&)*m_pForm, nana::rectangle(585, 490, 102, 23));
+		m_btnLeaveRoom->caption("Leave Room");
+		m_btnLeaveRoom->events().click([&]() { this->RequestLeaveRoom(); });
+		
 	}
 
 	void Init(const int maxUserCount)
@@ -306,6 +313,12 @@ public:
 		reqPkt.IsCreate = true;
 		mbstowcs(reqPkt.RoomTitle, szRoomName, NCommon::MAX_ROOM_TITLE_SIZE);
 		m_pRefNetwork->SendPacket((short)PACKET_ID::ROOM_ENTER_REQ, sizeof(reqPkt), (char*)&reqPkt);
+	}
+
+	void RequestLeaveRoom()
+	{
+		NCommon::PktRoomLeaveReq reqPkt;
+		m_pRefNetwork->SendPacket((short)PACKET_ID::ROOM_LEAVE_REQ, sizeof(reqPkt), (char*)&reqPkt);
 	}
 
 	//RoomInfos로 RoomList GUI를 설정한다.
@@ -475,7 +488,9 @@ private:
 	//room
 	std::unique_ptr<button> m_btnEnterRoom;
 	std::unique_ptr<button> m_btnCreateRoom;
+	std::unique_ptr<button> m_btnLeaveRoom; 
 	std::shared_ptr<textbox> m_txtRoomName;
+	
 	
 	//lobby chat
 	/*std::shared_ptr<textbox> m_txtChatInput;
