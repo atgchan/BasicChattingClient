@@ -17,6 +17,17 @@ public:
 
 	virtual void Update() override 
 	{
+		if (GetCurSceneType() != CLIENT_SCENE_TYPE::LOBBY)
+		{
+			m_btnCreateRoom->enabled(false);
+			m_btnEnterRoom->enabled(false);
+			m_txtRoomName->enabled(false);
+		}
+		else {
+			m_btnCreateRoom->enabled(true);
+			m_btnEnterRoom->enabled(true);
+			m_txtRoomName->enabled(true);
+		}
 	}
 
 	bool ProcessPacket(const short packetId, char* pData) override 

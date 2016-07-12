@@ -80,7 +80,7 @@ bool ClientChat::ProcessPacket(const short packetId, char * pData)
 		NCommon::PktLobbyEnterRes* pktData = (NCommon::PktLobbyEnterRes*)pData;
 		if (pktData->ErrorCode == (short)NCommon::ERROR_CODE::NONE)
 		{
-			m_pChatBox->append("로비에 입장하셨습니다.\n", true);
+			m_pChatBox->append("Enter Lobby.\n", true);
 		}
 	}
 		break;
@@ -89,7 +89,7 @@ bool ClientChat::ProcessPacket(const short packetId, char * pData)
 		NCommon::PktRoomEnterRes* pktData = (NCommon::PktRoomEnterRes*)pData;
 		if (pktData->ErrorCode == (short)NCommon::ERROR_CODE::NONE)
 		{
-			m_pChatBox->append("방에 입장하셨습니다.\n", true);
+			m_pChatBox->append("Enter Room.\n", true);
 		}
 	}
 		break;
