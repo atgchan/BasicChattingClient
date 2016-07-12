@@ -23,6 +23,7 @@ public:
 	{
 		switch (packetId)
 		{
+		// 룸에 들어갔는데 아직 유저리스트가 생성이 안 된 경우
 		case (short)PACKET_ID::ROOM_ENTER_RES:
 		{
 			if (m_isUserListInitialized == false)
@@ -34,6 +35,7 @@ public:
 		}
 		break;
 
+		// 들어간 룸의 유저 리스트를 받아서 처리
 		case (short)PACKET_ID::ROOM_ENTER_USER_LIST_RES:
 		{
 			auto pktRes = (NCommon::PktEnterRoomUserInfoRes*)pData;
@@ -51,6 +53,13 @@ public:
 		}
 		break;
 
+		// 룸에 들어온 유저의 정보를 받아서 처리
+		case (short)PACKET_ID::ROOM_ENTER_USER_NTF:
+		{
+			auto pktRes = (NCommon::PktRoomEnterUserInfoNtf*)pData;
+			UpdateUserInfo(false, pktRes->UserID);
+		}
+		break;
 
 		default:
 			return false;

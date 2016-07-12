@@ -54,6 +54,7 @@ public:
 			}
 		}
 			break;
+
 		//로비입장 후 요청한 방리스트 패킷 처리
 		case (short)PACKET_ID::LOBBY_ENTER_ROOM_LIST_RES:
 		{
@@ -80,6 +81,7 @@ public:
 			}
 		}
 			break;
+
 		//방리스트 갱신 후 요청한 유저리스트 패킷 처리
 		case (short)PACKET_ID::LOBBY_ENTER_USER_LIST_RES:
 		{
