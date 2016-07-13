@@ -177,9 +177,13 @@ bool ClientChat::ProcessPacket(const short packetId, char * pData)
 
 	case (short)PACKET_ID::LOBBY_WHISPER_RES:
 	{
-		m_pChatBox->append("my whisper : ", false);
-		m_pChatBox->append(m_myMsgBuffer, false);
-		m_pChatBox->append("\n", false);
+		NCommon::PktLobbyWhisperRes* pktData = (NCommon::PktLobbyWhisperRes*)pData;
+		if (pktData->ErrorCode == (short)NCommon::ERROR_CODE::NONE)
+		{
+			m_pChatBox->append("my whisper : ", false);
+			m_pChatBox->append(m_myMsgBuffer, false);
+			m_pChatBox->append("\n", false);
+		}
 	}
 	break;
 	case (short)PACKET_ID::LOBBY_WHISPER_NTF:
