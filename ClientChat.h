@@ -196,6 +196,7 @@ bool ClientChat::ProcessPacket(const short packetId, char * pData)
 		memcpy(id, pktData->UserID, NCommon::MAX_USER_ID_SIZE);
 
 		char sentence[NCommon::MAX_ROOM_CHAT_MSG_SIZE + 1] = { '\0', };
+		auto size = sizeof(sentence);
 		memcpy(sentence, pktData->Msg, sizeof(sentence));
 
 		//		UnicodeToAnsi(pktData->Msg, sizeof(sentence), sentence);
@@ -219,23 +220,20 @@ bool ClientChat::ProcessMsg(std::string& msg)
 		auto mainStr = msg.substr(3, msg.size());
 		auto pos = mainStr.find(" ") + 1;
 		std::cout << pos << std::endl;
-		auto id = mainStr.substr(0, pos);
+		auto id = mainStr.substr(0, pos - 1);
 		auto wisper = mainStr.substr(pos, mainStr.size());;
 
 		std::cout << "id:" << id << " wisper:" << wisper << std::endl;
 
 		NCommon::PktLobbyWhisperReq reqPkt;
-		strcpy(reqPkt.TargetUserID, id.c_str());
-		wchar_t tmp[50];
-		std::copy(&wisper[0], &wisper[wisper.size()], tmp);
-		lstrcpyW(tmp, reqPkt.Msg);
-
-		int msgSize = min(msg.size(), sizeof(m_myMsgBuffer));
-
+		
+		int msgSize = min(wisper.size(), sizeof(m_myMsgBuffer));
 		for (int i = 0; i < msgSize; i++)
-			m_myMsgBuffer[i] = msg.at(i);
-
+			m_myMsgBuffer[i] = wisper.at(i);
 		m_myMsgBuffer[msgSize] = '\0';
+
+		strcpy(reqPkt.TargetUserID, id.c_str());
+		memcpy(reqPkt.Msg, m_myMsgBuffer, msgSize);
 
 		std::cout << m_myMsgBuffer << std::endl;
 		
@@ -286,7 +284,6 @@ bool ClientChat::ProcessMsg(std::string& msg)
 			std::cout << m_myMsgBuffer << std::endl;
 
 			NCommon::PktRoomChatReq reqPkt;
-
 			memcpy(reqPkt.Msg, m_myMsgBuffer, msgSize);
 
 			m_pRefNetwork->SendPacket((short)PACKET_ID::ROOM_CHAT_REQ, sizeof(reqPkt), (char*)&reqPkt);
